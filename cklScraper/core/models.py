@@ -23,7 +23,7 @@ class Article(models.Model):
     author = models.ForeignKey('core.Author', verbose_name='Author Name')
     subject = models.ForeignKey('core.Subject', verbose_name='Subject')
     hero_image = models.ImageField(upload_to='pictures')
-    publish_date = models.DateField()
+    publish_date = models.DateTimeField()
     text = models.TextField()
 
     def __str__(self):
