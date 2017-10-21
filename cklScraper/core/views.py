@@ -10,22 +10,21 @@ import re
 
 
 def index(request):
-    html = urllib.request.urlopen('https://techcrunch.com/page/2')
-    soup = BeautifulSoup(html, 'html.parser')
-    blocks = [block for block in soup.find_all('li', attrs={'class': 'river-block'})]
-
     def extract_data():
         for block in blocks:
+            print(block.find('h2').text)
             # Checks if article has already been added
             if Article.objects.filter(title=block.find('h2').text).exists():
                 continue
             article = Article()
             article.title = block.find('h2').text
-            article.url = block['data-permalink']
-            article.slug = re.findall('https://techcrunch.com/[0-9]{4}/[0-9]{2}/[0-9]{2}/(.*)/', block['data-permalink'])[0]
-
+            article.url = block.find('h2').a['href']
+            article.slug = re.findall('/([^/]*)/$', block.find('h2').a['href'])[0]
             article.publish_date = block.find('time')['datetime']
-            article.text = block.find('p', attrs={'class': 'excerpt'}).text[:200]
+            if block.find('p', attrs={'class': 'excerpt'}):
+                article.text = block.find('p', attrs={'class': 'excerpt'}).text[:200]
+            else:
+                article.text = ''
             # Checks if author isn't in database yet and adds it
             if not Author.objects.filter(name=block.find('a', attrs={'rel': 'author'}).text).exists():
                 author = Author(name=block.find('a', attrs={'rel': 'author'}).text)
@@ -47,6 +46,12 @@ def index(request):
                 temp_image = urllib.request.urlretrieve(block.find('img')['data-src'])
                 article.hero_image.save(os.path.basename(block.find('img')['data-src']), File(open(temp_image[0], 'rb')))
             article.save()
-
-    extract_data()
-    return render(request, 'index.html', {'data': data})
+    for page_number in range(1,11):
+        if page_number == 1:
+            html = urllib.request.urlopen('https://techcrunch.com/')
+        else:
+            html = urllib.request.urlopen('https://techcrunch.com/page/'+ str(page_number))
+        soup = BeautifulSoup(html, 'html.parser')
+        blocks = [block for block in soup.find_all('li', attrs={'class': 'river-block'})]
+        extract_data()
+    return render(request, 'index.html')
