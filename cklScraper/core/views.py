@@ -16,6 +16,8 @@ import re
 class ArticleList(generics.ListCreateAPIView):
     queryset = Article.objects.all().order_by('-publish_date')
     serializer_class = ArticleSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('subject', 'author')
     http_method_names = ['get']
 
 
