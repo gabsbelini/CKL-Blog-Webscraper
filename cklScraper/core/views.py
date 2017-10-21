@@ -2,11 +2,37 @@ from django.shortcuts import render
 from django.core.files import File
 from .models import Subject, Article, Author
 
+from .serializers import ArticleSerializer, SubjectSerializer
+from rest_framework import generics
+from django_filters.rest_framework import DjangoFilterBackend
+
 from bs4 import BeautifulSoup
 import urllib
 import json
 import os
 import re
+
+
+class ArticleList(generics.ListCreateAPIView):
+    queryset = Article.objects.all().order_by('-publish_date')
+    serializer_class = ArticleSerializer
+    http_method_names = ['get']
+
+
+class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Article.objects.all()
+    serializer_class = ArticleSerializer
+
+
+class SubjectList(generics.ListCreateAPIView):
+    queryset = Subject.objects.all()
+    serializer_class = SubjectSerializer
+    http_method_names = ['get']
+
+
+class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Subject.objects.all()
+    serializer_class = SubjectSerializer
 
 
 def index(request):
