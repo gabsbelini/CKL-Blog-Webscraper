@@ -1,7 +1,7 @@
 # CKL Backend Challenge
 
 Esse projeto faz parte do processo seletivo da Cheesecake Labs. O objetivo dele é que o candidato crie um webscraper para extrair dados de um blog e disponibilize esses dados em forma de uma API REST.
-A API está disponível nos seguintes endereços: [http://45.55.255.158/articles] (http://45.55.255.158/articles) e [http://45.55.255.158/subjects](http://45.55.255.158/subjects)
+A API está disponível nos seguintes endereços: http://45.55.255.158/articles  e http://45.55.255.158/subjects
 
 ## Bibliotecas e Ferramentas utilizadas
 
