@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 class Subject(models.Model):
@@ -24,6 +25,7 @@ class Article(models.Model):
     author = models.ForeignKey('core.Author', verbose_name='Author Name')
     subject = models.ForeignKey('core.Subject', verbose_name='Subject')
     hero_image = models.ImageField(upload_to='pictures', max_length=255)
+    created_date = models.DateTimeField('Date Created', default=timezone.now)
     publish_date = models.DateTimeField()
     text = models.TextField()
 
