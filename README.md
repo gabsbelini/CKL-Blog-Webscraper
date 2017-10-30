@@ -5,7 +5,7 @@ A API está disponível nos seguintes endereços: http://45.55.255.158/articles 
 
 ## Bibliotecas e Ferramentas utilizadas
 
-1. [Atom] (https://atom.io/)
+1. [Atom](https://atom.io/)
 2. Linux Mint
 3. Digital Ocean para fazer o deploy (nginx + gunicorn)
 4. [YamJam](https://pypi.python.org/pypi/yamjam/): Utilizado para gerenciar dados sensíveis do arquivo `settings.py`
